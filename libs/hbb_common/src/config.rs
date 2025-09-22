@@ -64,78 +64,78 @@ lazy_static::lazy_static! {
     pub static ref NEW_STORED_PEER_CONFIG: Arc<Mutex<HashSet<String>>> = Default::default();
 }
 
-lazy_static::lazy_static! {
-    pub static ref APP_DIR: Arc<RwLock<String>> = Default::default();
+懒_静态::懒_静态！{
+pub static ref APP _ DIR:Arc < RwLock < String > > = Default::Default();
 }
 
-#[cfg(any(target_os = "android", target_os = "ios"))]
-lazy_static::lazy_static! {
-    pub static ref APP_HOME_DIR: Arc<RwLock<String>> = Default::default();
+#[稳频发电机（发生器）（constant frequency generator的缩写）(任何的(目标操作系统=“安卓”，目标操作系统=" ios "))]
+懒_静态::懒_静态！{
+发布静态引用APP _ HOME _ DIR:Arc < RwLock < String > > = Default::Default();
 }
 
-pub const LINK_DOCS_HOME: &str = "https://rustdesk.com/docs/en/";
-pub const LINK_DOCS_X11_REQUIRED: &str = "https://rustdesk.com/docs/en/manual/linux/#x11-required";
-pub const LINK_HEADLESS_LINUX_SUPPORT: &str =
-    "https://github.com/rustdesk/rustdesk/wiki/Headless-Linux-Support";
-lazy_static::lazy_static! {
-    pub static ref HELPER_URL: HashMap<&'static str, &'static str> = HashMap::from([
-        ("rustdesk docs home", LINK_DOCS_HOME),
-        ("rustdesk docs x11-required", LINK_DOCS_X11_REQUIRED),
-        ("rustdesk x11 headless", LINK_HEADLESS_LINUX_SUPPORT),
+酒馆 常数 LINK_DOCS_HOME:&str =" https://rustdesk.com/docs/en/";
+酒馆 常数 LINK _ DOCS _ X11 _必填:&str =" https://rust desk . com/docs/en/manual/Linux/# X11-必需";
+酒馆 常数 链接_无头_ LINUX _支持:&str =
+    " https://github . com/rust desk/rust desk/wiki/Headless-Linux-Support ";
+懒_静态::懒_静态！{
+pub static ref HELPER _ URL:HashMap < & '静态字符串，& '静态字符串> = HashMap::from([
+        (" rustdesk文档主页"，链接_文档_主页),
+        (" rustdesk文档X11-必需"，LINK _ DOCS _ X11 _必填),
+        (" rustdesk x11无头"，LINK_HEADLESS_LINUX_SUPPORT),
         ]);
 }
 
-const CHARS: &[char] = &[
-    '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-    'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+常数 烧焦: &[茶] = &[
+    '2', '3', '4', '5', '6', '7', '8', '9', 一个, ' b ', ' c ', 迪, ' e ', f ', ' g ', ' h ', 我, j ', k ',
+    ' m ', “不”, p ', 问, r ', “s”, t, 你好, v ', w ', x ', 你好, z ',
 ];
 
-pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
-pub const PUBLIC_RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+酒馆 常数 集合_服务器: &[&str] = &["112.19.63.242"];
+酒馆 常数 公共密钥:&str =" zLojepR+qscbwya 3 by 5s M9 whihkuzxeuxhprpj 6 ivgu = ";
 
-pub const RS_PUB_KEY: &str = match option_env!("RS_PUB_KEY") {
-    Some(key) if !key.is_empty() => key,
-    _ => PUBLIC_RS_PUB_KEY,
+酒馆 常数 公共密钥:&str =比赛选项_环境！(" RS_PUB_KEY ") {
+一些(键) 如果！钥匙。是空的()= >键，
+    _=> PUBLIC_RS_PUB_KEY，
 };
 
-pub const RENDEZVOUS_PORT: i32 = 21116;
-pub const RELAY_PORT: i32 = 21117;
+酒馆 常数 集合港:i32 =21116;
+酒馆 常数 中继端口:i32 =21117;
 
-macro_rules! serde_field_string {
-    ($default_func:ident, $de_func:ident, $default_expr:expr) => {
-        fn $default_func() -> String {
-            $default_expr
+宏_规则！字段字符串{
+    ($default_func:ident，$de_func:ident，$default_expr:expr) => {
+fn $default_func()->弦乐{
+$default_expr
         }
 
-        fn $de_func<'de, D>(deserializer: D) -> Result<String, D::Error>
-        where
-            D: de::Deserializer<'de>,
+fn $de_func<'de，D >(解串器:D)->结果< String，D::Error >
+在哪里
+de::Deserializer<'de >，
         {
-            let s: String =
-                de::Deserialize::deserialize(deserializer).unwrap_or(Self::$default_func());
-            if s.is_empty() {
-                return Ok(Self::$default_func());
+让我们:字符串=
+反序列化(解串器)。展开或(Self::$default_func());
+如果s.is_empty() {
+返回Ok(Self::$default_func());
             }
-            Ok(s)
+好的(s)
         }
     };
 }
 
-macro_rules! serde_field_bool {
-    ($struct_name: ident, $field_name: literal, $func: ident, $default: literal) => {
-        #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-        pub struct $struct_name {
-            #[serde(default = $default, rename = $field_name, deserialize_with = "deserialize_bool")]
-            pub v: bool,
+宏_规则！塞尔德_菲尔德_布尔{
+    ($struct_name: ident，$field_name: literal，$func: ident，$default: literal) => {
+        #[导出(调试、克隆、部分请求、序列化、反序列化)]
+发布结构$结构名{
+            #[塞尔德(default = $default，rename = $field_name，deserialize_with ="反序列化_布尔值")]
+酒吧v:布尔，
         }
-        impl Default for $struct_name {
-            fn default() -> Self {
-                Self { v: Self::$func() }
+实现$struct_name的默认值{
+fn默认()->自我{
+自己{v: Self::$func() }
             }
         }
-        impl $struct_name {
-            pub fn $func() -> bool {
-                UserDefaultConfig::read().get($field_name) == "Y"
+实现$struct_name{
+发布fn $func()->布尔{
+UserDefaultConfig::read()。得到($field_name) == " Y "
             }
         }
         impl Deref for $struct_name {
